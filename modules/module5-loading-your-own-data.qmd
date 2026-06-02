@@ -53,7 +53,7 @@ Import using read.csv():
 
 ```{r}
 # Import the file snore.csv using read.csv()
-snore <- read.csv("snore.csv")
+snore <- read.csv("../datasets/snore.csv")
 
 # Preview the file
 head(snore)
@@ -63,7 +63,7 @@ Import using read_csv():
 
 ```{r}
 # Import the file snore.csv using read_csv()
-snore_tidy <- read_csv("snore.csv")
+snore_tidy <- read_csv("../datasets/snore.csv")
 
 # Preview the file
 head(snore_tidy)
@@ -92,11 +92,11 @@ To read this new file, you must specify in the function parameters that the sepa
 
 ```{r}
 # Import snore_semi.csv using read.csv()
-snore_semi <- read.csv("snore_semi.csv",
+snore_semi <- read.csv("../datasets/snore_semi.csv",
                       sep = ";")
 
 # Import snore_semi.csv using tidyverse
-snore_semi_tidy <- read_delim("snore_semi.csv",
+snore_semi_tidy <- read_delim("../datasets/snore_semi.csv",
                              delim = ";")
 ```
 
@@ -107,7 +107,7 @@ To load data from an Excel file, we will use the **read_xlsx()** function availa
 ```{r}
 # Read the file "snore.xlsx" using read_xlsx()
 
-snore_xlsx <- read_xlsx("snore.xlsx",
+snore_xlsx <- read_xlsx("../datasets/snore.xlsx",
                          sheet = 1)
 ```
 

@@ -1,0 +1,121 @@
+---
+title: "Learn R From Scratch"
+author: "Barthélémy Durette 2025 all rights reserved"
+format: html
+editor: visual
+---
+
+## Loading Your Own Data Files
+
+------------------------------------------------------------------------
+
+### Welcome to this fifth module of the "Learn R From Scratch" training course.
+
+In this module, we will cover:
+
+1.  **How to load a .csv data file into R?**
+
+2.  **How to load an Excel data file into R?**
+
+To do so, we will use the **tidyverse** package and the **readxl** package.
+
+```{r}
+require(tidyverse)
+require(readxl)
+```
+
+------------------------------------------------------------------------
+
+## 1 - Loading a .csv Data File
+
+The **.csv** file format (Comma Separated Values) is an extremely common way of storing **tabular data**. In this format, which can be opened with a simple text editor, **data are stored row by row as values separated by commas** (or semicolons). The first row, called the **header**, contains the variable names, in other words the column names.
+
+**Example: the first 10 rows of the file snore.csv**
+
+```         
+"","AGE","POIDS","TAILLE","ALCOOL","SEXE","RONFLE","TABA","PDS","agestd","alcool","alcool2"
+"1","47","71","158","0","1","N","O","0.6667","-0.462394463139037","0","0"
+"2","56","58","164","7","1","O","N","0.6667","0.327273500476016","3","3"
+"3","46","116","208","3","1","N","O","0.6667","-0.550135347985154","1","1"
+"4","70","96","186","3","1","N","O","0.6667","1.55564588832165","1","1"
+"5","51","91","195","2","1","O","O","0.6667","-0.111430923754569","1","1"
+"6","46","98","188","0","2","N","N","2","-0.550135347985154","0","0"
+"7","40","112","193","5","1","N","O","0.6667","-1.07658065706186","2","2"
+"8","46","77","165","0","2","N","N","2","-0.550135347985154","0","0"
+"9","49","76","164","0","1","N","N","0.6667","-0.286912693446803","0","0"
+```
+
+***Which other character is used here to separate values? Why?***
+
+To read a .csv file, you can use the **read.csv()** function available in base R or the **read_csv()** function available in the tidyverse package and compatible with the pipe operator.
+
+Import using read.csv():
+
+```{r}
+# Import the file snore.csv using read.csv()
+snore <- read.csv("snore.csv")
+
+# Preview the file
+head(snore)
+```
+
+Import using read_csv():
+
+```{r}
+# Import the file snore.csv using read_csv()
+snore_tidy <- read_csv("snore.csv")
+
+# Preview the file
+head(snore_tidy)
+```
+
+*What differences do you notice between the output of **read.csv()** and **read_csv()**?*
+
+**The function parameters allow you to adapt to the specific characteristics of your .csv file.** For example, let us replace commas with semicolons in the file "snore.csv" to create the file "snore_semi.csv".
+
+**First 10 rows of the file snore_semi.csv:**
+
+```         
+"";"AGE";"POIDS";"TAILLE";"ALCOOL";"SEXE";"RONFLE";"TABA";"PDS";"agestd";"alcool";"alcool2"
+"1";"47";"71";"158";"0";"1";"N";"O";"0.6667";"-0.462394463139037";"0";"0"
+"2";"56";"58";"164";"7";"1";"O";"N";"0.6667";"0.327273500476016";"3";"3"
+"3";"46";"116";"208";"3";"1";"N";"O";"0.6667";"-0.550135347985154";"1";"1"
+"4";"70";"96";"186";"3";"1";"N";"O";"0.6667";"1.55564588832165";"1";"1"
+"5";"51";"91";"195";"2";"1";"O";"O";"0.6667";"-0.111430923754569";"1";"1"
+"6";"46";"98";"188";"0";"2";"N";"N";"2";"-0.550135347985154";"0";"0"
+"7";"40";"112";"193";"5";"1";"N";"O";"0.6667";"-1.07658065706186";"2";"2"
+"8";"46";"77";"165";"0";"2";"N";"N";"2";"-0.550135347985154";"0";"0"
+"9";"49";"76";"164";"0";"1";"N";"N";"0.6667";"-0.286912693446803";"0";"0"
+```
+
+To read this new file, you must specify in the function parameters that the separator between values is a semicolon:
+
+```{r}
+# Import snore_semi.csv using read.csv()
+snore_semi <- read.csv("snore_semi.csv",
+                      sep = ";")
+
+# Import snore_semi.csv using tidyverse
+snore_semi_tidy <- read_delim("snore_semi.csv",
+                             delim = ";")
+```
+
+## 2 - Loading an Excel Data File
+
+To load data from an Excel file, we will use the **read_xlsx()** function available in the readxl package. Unlike .csv files, Excel files have a standardized format. However, it is possible to choose which worksheet should be imported.
+
+```{r}
+# Read the file "snore.xlsx" using read_xlsx()
+
+snore_xlsx <- read_xlsx("snore.xlsx",
+                         sheet = 1)
+```
+
+### *Practice Exercise*
+
+Working with a partner, load your own data from a CSV or Excel file:
+
+```{r}
+# Write your code here:
+
+```

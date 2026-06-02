@@ -1,0 +1,249 @@
+---
+title: "Learn R From Scratch"
+format: pdf
+editor: visual
+copyright: "Barthélémy DURETTE 2024 all rights reserved"
+---
+
+------------------------------------------------------------------------
+
+# Introduction
+
+------------------------------------------------------------------------
+
+### Welcome to this first module of the training course "Learn R From Scratch".
+
+In this module, we will cover:
+
+1.  **How to perform basic arithmetic operations with R?**
+
+2.  **How to view a data table in R?**
+
+3.  **How to perform basic arithmetic operations on a data table?**
+
+You will learn how to use **\$**, the first essential symbol you need to know when working with R.
+
+------------------------------------------------------------------------
+
+## 1 - Performing Basic Arithmetic Operations with R
+
+At a minimum, R can be used as a powerful calculator. Addition, subtraction, multiplication, and division are written as follows (click the green arrow in the upper-left corner of each cell to display the result):
+
+Addition
+
+```{r}
+# Addition
+1+1
+```
+
+Subtraction
+
+```{r}
+# Subtraction
+1-1
+```
+
+Multiplication
+
+```{r}
+# Multiplication
+2*2
+```
+
+Division
+
+```{r}
+# Division
+4/2
+```
+
+For exponentiation, use the **\^** symbol.
+
+```{r}
+# Power
+2^3
+```
+
+For square roots, you can either use the **sqrt** function or raise a number to the power of 1/2.
+
+```{r}
+# Square root using sqrt
+sqrt(16)
+
+# Square root using exponentiation
+16^(1/2)
+```
+
+R also provides all standard trigonometric functions:
+
+```{r}
+# Cosine
+cos(20)
+
+# Sine
+sin(10)
+
+# Tangent
+tan(10)
+
+# Arctangent
+atan(10)
+```
+
+And logarithmic functions:
+
+```{r}
+# Natural logarithm (base e)
+log(1)
+
+# Base-10 logarithm using log10
+log10(10)
+
+# Base-10 logarithm using log
+log(10, base = 10)
+```
+
+That concludes a first overview of the most commonly used functions.
+
+------------------------------------------------------------------------
+
+### *Practice Exercise*
+
+Calculate the base-10 logarithm of the sine of 8 raised to the power of 3.
+
+```{r}
+# Write your formula below this line:
+
+```
+
+Do you get **-1.099532**? Great! Otherwise, look for the mistake.
+
+------------------------------------------------------------------------
+
+## 2 - Viewing a Data Table in R
+
+R includes several built-in datasets that are ready to use. Some of the most popular are:
+
+1.  mtcars: data on cars
+
+2.  iris: data on flowers
+
+3.  ToothGrowth: data on tooth growth
+
+4.  PlantGrowth: data on plant growth
+
+5.  USArrests: data on crime statistics
+
+To learn more about these datasets, you can use the **help** function, which opens documentation in a separate RStudio tab. The **data()** function provides access to all built-in datasets.
+
+```{r}
+help("ToothGrowth")
+```
+
+To access a dataset, simply type its name. However, if you do that (go ahead and try!), R will display the entire dataset by default. That can be difficult to read. Here are a few useful functions for exploring a dataset.
+
+The **dim** function returns the dimensions of the table. Here, there are 150 rows and 5 columns.
+
+```{r}
+# dim function
+dim(iris)
+```
+
+The **names** function returns the column names:
+
+```{r}
+# names function
+names(iris)
+```
+
+Finally, the **head** function provides a preview of the first rows of the dataset:
+
+```{r}
+head(iris)
+```
+
+------------------------------------------------------------------------
+
+### *Practice Exercise*
+
+Choose one of R's built-in datasets and:
+
+- Consult the documentation to obtain general information about the dataset.
+- Find the number of rows and columns.
+- Find the column names.
+
+```{r}
+# Write your code here:
+
+```
+
+------------------------------------------------------------------------
+
+## 3 - How to Perform Basic Arithmetic Operations on a Data Table?
+
+Now let's get to the heart of the matter. How can you use R to manipulate data and perform basic operations?
+
+|  |
+|------------------------------------------------------------------------|
+| **The first of the four essential symbols you need to know in R is the "\$" symbol (money, money, money!).** |
+
+The **\$** symbol is used to select a column from a data frame. For example, if I want to retrieve the "Sepal.Length" column from the "iris" dataset, I would write:
+
+```{r}
+# Retrieve the Sepal.Length column from the iris dataset
+iris$Sepal.Length
+```
+
+------------------------------------------------------------------------
+
+### *Practice Exercise*
+
+Calculate the length of `iris$Sepal.Length` and display only the first 5 values. Caution : dim() may not be the appropriate function to get the length of a single column, try an educated guess !
+
+```{r}
+# Write your answer here:
+
+```
+
+------------------------------------------------------------------------
+
+You can then perform **arithmetic operations directly on columns**, such as:
+
+Multiplying by a scalar:
+
+```{r}
+# Multiply the Petal.Length column by four
+4 * iris$Petal.Length
+```
+
+Computing the sine:
+
+```{r}
+# Compute the sine of the Petal.Length column
+sin(iris$Petal.Length)
+```
+
+You can also perform operations between columns, for example **adding two columns**:
+
+```{r}
+# Sum of the Petal.Length and Sepal.Length columns
+iris$Petal.Length + iris$Sepal.Length
+```
+
+Or calculating the **element-wise product** of two columns:
+
+```{r}
+# Product of the Petal.Length and Sepal.Length columns
+iris$Petal.Length * iris$Sepal.Length
+```
+
+------------------------------------------------------------------------
+
+### *Practice Exercise*
+
+Calculate the sine of the sum of the `Petal.Length` and `Sepal.Length` columns from the `iris` dataset.
+
+```{r}
+# Write your answer here:
+
+```

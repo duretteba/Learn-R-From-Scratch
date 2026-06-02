@@ -1,0 +1,21 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Learn R From Scratch"
+  author: "Barthélémy Durette"
+
+  chapters:
+    - index.qmd
+    - modules/module1-introduction.qmd
+    - modules/module2-visualization.qmd
+    - modules/module3-data-manipulation.qmd
+    - modules/module4-working-with-tables.qmd
+    - modules/module5-loading-your-own-data.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: true

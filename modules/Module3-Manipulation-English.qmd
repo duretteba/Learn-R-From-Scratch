@@ -1,0 +1,247 @@
+---
+title: "Learn R From Scratch"
+format: html
+editor: visual
+copyright: "Barthélémy DURETTE 2024 all rights reserved"
+---
+
+------------------------------------------------------------------------
+
+# Manipulating Data with R
+
+------------------------------------------------------------------------
+
+### Welcome to this third module of the "Learn R From Scratch" training course.
+
+In this module, we will cover:
+
+1.  **How to select rows from a data table**
+
+2.  **How to select columns from a data table**
+
+3.  **How to add new variables to a data table**
+
+In this module, you will also learn how to use the **Tidyverse package and the pipe operator**: **%\>%**
+
+------------------------------------------------------------------------
+
+## Introduction: The Tidyverse Package
+
+The Tidyverse library marked a turning point in the history of R. This package, which actually combines several libraries designed to work together, changed the way people program in R. It shifted programming from a mainly functional style to a pipeline-based approach. It also introduced a set of highly useful functions for data manipulation. We will therefore begin by installing it. This may take a few minutes.
+
+In addition, the ggplot2 package is required.
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+library(ggplot2)
+```
+
+To practice data manipulation, we will use a dataset containing more than 50,000 rows, which would be difficult to manage in a traditional spreadsheet.
+
+This is the **diamonds** dataset, whose characteristics can be explored as follows:
+
+```{r}
+help("diamonds")
+```
+
+## 1 - Selecting Rows from a Data Table
+
+This operation is also called **filtering**, because it consists of keeping only the rows that satisfy a logical condition. For example, let us consider the quality of the diamond cut: the `cut` variable.
+
+The variable **cut** is a **factor** that classifies diamonds into five categories:
+
+```{r}
+levels(diamonds$cut)
+```
+
+We can count the number of diamonds in each category using the **table()** function.
+
+```{r}
+table(diamonds$cut)
+```
+
+To filter a dataset, we use the **filter()** function. The argument of this function is the logical condition to apply. For example:
+
+- **cut == "Fair"** keeps only diamonds with a Fair cut quality.
+
+```{r}
+# Restrict the dataset to diamonds with a Fair cut
+
+diamonds %>% filter(cut == "Fair", color == "E")
+```
+
+- **cut != "Fair"** keeps only diamonds whose cut quality is not Fair.
+
+```{r}
+# Restrict the dataset to diamonds whose cut is not Fair
+
+diamonds %>% filter(cut != "Fair")
+```
+
+- **cut %in% c("Fair","Good")** keeps all diamonds in the Fair or Good categories.
+
+```{r}
+# Restrict the dataset to diamonds with Fair or Good cuts
+
+choices <- c("Fair","Good","Ideal")
+diamonds %>% filter(cut %in% choices)
+```
+
+**Along the way, you have encountered:**
+
+- the **pipe operator %\>%**
+
+- the **%in% operator**
+
+- the **c() function**
+
+------------------------------------------------------------------------
+
+### Practice Exercise
+
+```         
+In your own words, describe what the following three R programming elements do:
+
+The %>% operator passes the output of one function to the input of another function.
+
+The %in% operator is a logical connector that tests membership in a set of elements.
+
+The c() function creates a vector from the elements provided as arguments.
+```
+
+------------------------------------------------------------------------
+
+### Application Exercise
+
+A filter can be applied to any variable, even if it is not a factor. For example, we can filter a numerical variable.
+
+Filter the diamonds dataset to keep only diamonds worth more than \$15,000.
+
+```{r}
+# Write your code here:
+
+diamonds %>% filter(price > 15000)
+```
+
+**How many diamonds have a price greater than \$15,000?**
+
+------------------------------------------------------------------------
+
+## 2 - Selecting Columns from a Data Table
+
+The Tidyverse package also provides a very useful function for selecting columns: **select()**.
+
+This function can be used to select:
+
+- One or more columns **by name**
+
+- All columns **except one or more**
+
+- All columns **starting or ending with the same prefix or suffix**
+
+- All columns **containing a specific character string**
+
+- etc. (see the function documentation for all available options)
+
+Here are some examples:
+
+### Selecting a subset of columns by name
+
+```{r}
+# Select the Cut, Clarity, and Price columns
+
+diamonds %>% select(cut, clarity, price)
+
+# Note: column names are not enclosed in quotation marks
+```
+
+### Selecting all columns except specific ones
+
+```{r}
+# Exclude the Cut, Clarity, and Price columns using the - operator
+
+diamonds %>% select(-cut, -clarity, -price)
+
+# Exclude the same columns using ! and c()
+
+diamonds %>% select(!c(cut, clarity, price))
+```
+
+### Selecting all columns that start with a given string
+
+```{r}
+# Select all columns whose names start with the letter "c"
+
+diamonds %>% select(starts_with("c"))
+```
+
+------------------------------------------------------------------------
+
+### Application Exercise
+
+Using the diamonds dataset, create a table containing only the dimensions (`x`, `y`, and `z`) and the price of diamonds whose cut quality is Ideal.
+
+```{r}
+# Write your code here:
+
+```
+
+**What are the dimensions of this new dataset?**
+
+------------------------------------------------------------------------
+
+## 3 - Adding New Variables to a Data Table
+
+In data analysis, it is common to compute intermediate variables, often called **features** in data mining. This is especially useful when several variables need to be combined to create a value that is more meaningful for analysis.
+
+For example, the diamonds dataset provides the **size of diamonds in three spatial dimensions** (`x`, `y`, and `z`). Individually, these variables are of limited interest. However, they can be combined to obtain an **estimate of diamond volume**.
+
+Our goal here is to calculate the estimated volume of each diamond and **add this value to the dataset** so that it can be used in later analyses. We use the **mutate()** function for this purpose.
+
+```{r}
+# Add a volume column to the diamonds dataset
+
+diamonds %>% mutate(volume = x * y * z)
+```
+
+We can then use this new column in subsequent operations. For example, we can display diamond weight as a function of estimated volume.
+
+```{r}
+# Scatter plot of diamond weight as a function of volume
+
+diamonds %>%
+  mutate(volume = x * y * z) %>%
+  ggplot() +
+  geom_point(aes(x = volume, y = carat))
+```
+
+**Does anything surprise you about the resulting graph? What do you think explains it?**
+
+------------------------------------------------------------------------
+
+### Application Exercise
+
+Using the diamonds dataset:
+
+1.  Calculate the estimated volume of each diamond from its dimensions `x`, `y`, and `z`.
+
+2.  Filter out diamonds with a volume smaller than 10 mm³ or larger than 1000 mm³.
+
+3.  Visualize diamond price (`price`) as a function of volume.
+
+4.  Map the color of the points to diamond clarity (`clarity`).
+
+```{r}
+# Write your code here:
+
+```
+
+**Which level of diamond clarity appears to be most valued by buyers?**
+
+Propose a clearer visualization to illustrate this trend using the histogram geometry introduced in the previous module.
+
+```{r}
+# Write your code here:
+
+```

@@ -1,0 +1,54 @@
+---
+title: "Learn R From Scratch"
+---
+
+# Welcome
+
+Welcome to **Learn R From Scratch**, a practical introduction to data analysis with R.
+
+This course was designed for complete beginners and requires no prior programming experience.
+
+By the end of the course, you will be able to:
+
+- Perform basic calculations in R
+- Create professional data visualizations with ggplot2
+- Manipulate datasets using the Tidyverse
+- Build summary tables and pivot tables
+- Import data from CSV and Excel files
+- Conduct a complete data analysis workflow
+
+## Course Structure
+
+### Module 1 – Introduction to R
+
+Learn the basics of the R language and perform your first operations on data.
+
+### Module 2 – Data Visualization
+
+Create and customize charts with ggplot2.
+
+### Module 3 – Data Manipulation
+
+Filter, transform and enrich datasets using the Tidyverse.
+
+### Module 4 – Working with Tables
+
+Create summary tables, work with grouped data and reshape datasets.
+
+### Module 5 – Loading Your Own Data
+
+Import CSV and Excel files and start working with your own data.
+
+## About the Author
+
+Barthélémy Durette is a consultant specialized in data science, skills intelligence and artificial intelligence.
+
+## Support the Project
+
+This course is freely available online.
+
+If you find it useful and would like to support its development, a donation page will be available soon.
+
+---
+
+Let's get started with **Module 1 – Introduction to R**.

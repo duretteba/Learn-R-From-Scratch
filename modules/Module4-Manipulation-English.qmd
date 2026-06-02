@@ -1,0 +1,230 @@
+---
+title: "Learn R From Scratch"
+format: html
+editor: visual
+copyright: "Barthélémy DURETTE 2024 all rights reserved"
+---
+
+------------------------------------------------------------------------
+
+# Manipulating Tables with R
+
+------------------------------------------------------------------------
+
+### Welcome to this fourth module of the "Learn R From Scratch" training course.
+
+The Tidyverse library, already used in Module 3 to manipulate rows and columns of a dataset, also provides powerful functions for transforming one data table directly into another, often avoiding many tedious intermediate steps.
+
+In this module, we will cover:
+
+1.  **How to summarize a dataset into a summary table using group_by() and summarise()**
+
+2.  **How to reshape a dataset using pivot functions**
+
+You will also learn how to use the **assignment operator \<-** and how to create a sample dataset.
+
+------------------------------------------------------------------------
+
+```{r}
+library(tidyverse)
+```
+
+## 1 - Summarizing a Table with group_by() and summarise()
+
+A constant feature of statistical analysis is the presence of groups or categories that **divide the sample into subsets**. This process is often referred to as **grouping**. Variables used to separate observations into groups are called **factors** in R.
+
+For example, the diamonds dataset introduced in Module 3 contains three factor variables:
+
+- cut: the quality of the diamond cut, ranging from Fair to Ideal (5 levels)
+
+- color: the color grade, from D to J (7 levels)
+
+- clarity: the clarity grade, from I1 to IF (8 levels)
+
+To obtain the list of levels for a factor, use the `levels()` function.
+
+```{r}
+levels(diamonds$cut)
+```
+
+The **group_by()** function, combined with **summarise()**, allows you to perform calculations separately for each subgroup of a dataset.
+
+For example, we can calculate the **average diamond price as a function of clarity** in two steps:
+
+1.  Declare the grouping factor (here, `clarity`) in the `group_by()` function.
+
+2.  Declare the variable and the summary function inside `summarise()`: here `price` and `mean(price)`.
+
+```{r message = F}
+# Average diamond price by clarity
+
+diamonds %>% group_by(clarity) %>%
+  summarise(Mean = mean(price))
+```
+
+You can create **as many summary columns as needed**:
+
+```{r message = F}
+# Mean, median, and standard deviation of price by clarity
+
+diamonds %>% group_by(clarity) %>%
+  summarise(Mean = mean(price),
+            Median = median(price),
+            "Standard deviation" = sd(price))
+```
+
+You can also combine **multiple grouping factors**:
+
+```{r message = F}
+# Mean, median, and standard deviation of price by clarity and cut
+
+diamonds %>% group_by(clarity, cut) %>%
+  summarise(Mean = mean(price),
+            Median = median(price),
+            "Standard deviation" = sd(price))
+```
+
+But we can go **even further**. The `mutate()` function is sensitive to `group_by()`, meaning that calculations can be performed either on the entire dataset or separately within each group.
+
+Suppose we want to standardize diamond prices within each cut category. We can proceed as follows:
+
+1.  Calculate the mean and standard deviation for each group and add them to the dataset using `mutate()`.
+
+2.  Compute standardized prices for each diamond.
+
+```{r}
+# Standardizing prices by cut category
+
+diamonds %>% group_by(cut) %>%
+  mutate(Mean = mean(price),
+         "Standard deviation" = sd(price)) %>%
+  ungroup() %>%
+  mutate(centered_price = price - Mean,
+         standardized_price = centered_price / `Standard deviation`) %>%
+  select(cut, price, Mean, `Standard deviation`,
+         centered_price, standardized_price) %>%
+  arrange(cut)
+```
+
+**Why are there such large differences? How could they be corrected?**
+
+------------------------------------------------------------------------
+
+### *Practice Exercise*
+
+Using the diamonds dataset:
+
+1.  Use `mutate()` to calculate the price per carat for each diamond.
+
+2.  Use `summarise()` to create a summary table showing the mean price per carat and its standard deviation as a function of cut quality (`cut`).
+
+3.  Use `mutate()` to calculate the standardized price per carat within each cut group.
+
+4.  Draw your conclusions.
+
+```{r}
+# Write your code here:
+
+```
+
+------------------------------------------------------------------------
+
+## 2 - Reshaping a Table with Pivot Functions
+
+A standard data file contains one observation per row and one variable per column. This format is not always optimal for analysis. Spreadsheet software often provides a feature called a **pivot table**, which allows summary tables to be generated. In R, this functionality is provided by two functions:
+
+- **pivot_wider()**: creates as many columns as there are levels of a factor. The number of columns increases and the table becomes wider.
+
+- **pivot_longer()**: combines multiple columns into two variables, one containing the variable names and the other containing their values. The number of columns decreases while the number of rows increases, making the table longer.
+
+The following example illustrates the difference. Here is a dataset in **long format**.
+
+The same data can be converted into **wide format** by pivoting on the `Year` variable. The single `Year` column is transformed into multiple columns corresponding to each year, while the values from the `Sales` variable are used to populate the new table.
+
+Let us create this example in R. To store it in memory for later use, we assign it to a variable called `long` using the **assignment operator \<-**. The `tibble()` function creates a data frame in R.
+
+```{r}
+# Create and assign a sample table
+
+long <- tibble(
+  Product = c("A", "A", "B", "B"),
+  Year = c(2020, 2021, 2020, 2021),
+  Sales = c(100, 150, 200, 250)
+)
+
+long
+```
+
+This table is now stored in memory and can be found in the Environment pane of RStudio.
+
+### Converting a Long Table into a Wide Table
+
+```{r}
+# Convert from long format to wide format
+
+wide <- long %>%
+  pivot_wider(
+    names_from = "Year",
+    values_from = "Sales"
+  )
+
+print(wide)
+```
+
+### Converting a Wide Table into a Long Table
+
+```{r}
+# Convert from wide format to long format
+
+wide %>% pivot_longer(
+  cols = -Product,
+  names_to = "Year",
+  values_to = "Sales"
+)
+```
+
+------------------------------------------------------------------------
+
+### *Practice Exercise*
+
+The code below creates the dataset `notes_long`. Execute it and follow the instructions.
+
+```{r}
+# Create the example dataset
+
+notes_long <- tibble(
+  Student = c("John", "John", "John", "John",
+              "Jane", "Jane", "Jane", "Jane",
+              "Alice", "Alice", "Alice", "Alice"),
+  Subject = c("Mathematics", "History", "Mathematics", "History",
+              "Mathematics", "History", "Mathematics", "History",
+              "Mathematics", "History", "Mathematics", "History"),
+  Semester = c("Fall", "Fall", "Spring", "Spring",
+               "Fall", "Fall", "Spring", "Spring",
+               "Fall", "Fall", "Spring", "Spring"),
+  Grade = c(85, 90, 88, 92, 95, 80, 93, 85, 78, 82, 80, 85)
+)
+
+notes_long
+```
+
+**1.** Using `pivot_wider()`, transform `notes_long` into a dataset called `notes_wide`.
+
+```{r}
+# Write your code here:
+
+```
+
+**2.** Using `group_by()` and `summarise()`, display a summary table showing each student's annual average grade in each subject.
+
+```{r}
+# Write your code here:
+
+```
+
+Using `pivot_wider()`, find a way to produce the same summary table **without using `group_by()` or `summarise()`**.
+
+```{r}
+# Write your code here:
+
+```

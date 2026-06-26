@@ -4,15 +4,14 @@ Learn the fundamentals of data analysis with R through a practical, hands-on cou
 
 No prior programming experience required.
 
-## Private Beta
-
-This course is currently under active development and is being shared with a small number of beta testers.
-
-Please do not redistribute the repository, course materials or GitHub link without my prior permission.
-
-Once the course reaches its first public release, it will be freely available online.
-
-Thank you for helping improve Learn R From Scratch.
+> [!CAUTION]
+> **Private Beta**
+>
+> This repository is currently shared with a small number of beta testers.
+>
+> Please do **not** redistribute the repository, course materials or GitHub link without my prior permission.
+>
+> Thank you for helping improve **Learn R From Scratch**.
 
 ## What You Will Learn
 
